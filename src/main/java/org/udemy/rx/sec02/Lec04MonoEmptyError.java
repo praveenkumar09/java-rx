@@ -1,12 +1,21 @@
 package org.udemy.rx.sec02;
 
+import org.reactivestreams.Subscription;
 import org.udemy.rx.common.Util;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+
 public class Lec04MonoEmptyError {
     public static void main(String[] args) {
-        getUsername(3)
-                .subscribe(Util.subscriber("Lec04MonoEmptyError"));
+        getUsername(1)
+                .subscribe(System.out::println,
+                        err -> System.out.println(err.getMessage()),
+                        () -> System.out.println("Completed"),
+                        subscription -> {
+                            System.out.println("Default subscription triggered");
+                            subscription.request(1);
+                        });
     }
 
     private static Mono<String> getUsername(int userId){
