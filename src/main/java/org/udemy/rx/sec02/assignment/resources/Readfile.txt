@@ -1,0 +1,7 @@
+To read a text file in Java, the BufferedReader class, often combined with FileReader, is a common and efficient method, especially for reading line by line.
+Explanation:
+import java.io.BufferedReader; import java.io.FileReader; import java.io.IOException;: These lines import the necessary classes for file reading and handling potential input/output errors.
+String fileName = "example.txt";: This declares a string variable to hold the name of the file you want to read. Remember to replace "example.txt" with the actual path or name of your file.
+try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) { ... }: This is a try-with-resources statement, which ensures that the BufferedReader (and implicitly the FileReader) is automatically closed when the try block finishes, even if an exception occurs.
+FileReader(fileName): This creates a FileReader object, which is a character-stream class for reading text files.
+BufferedReader(new FileReader(fileName)): This wraps the FileReader in a BufferedReader. BufferedReader provides efficient reading of characters, arrays, and lines by buffering input.
