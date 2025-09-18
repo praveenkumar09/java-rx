@@ -16,7 +16,7 @@ public class DefaultSubscriber<T> implements Subscriber<T> {
 
     @Override
     public void onSubscribe(Subscription subscription) {
-        log.info("Subscription received");
+        log.info("Subscription received, name : {}",this.name);
         subscription.request(Long.MAX_VALUE);
     }
 
