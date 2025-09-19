@@ -5,13 +5,12 @@ import org.udemy.rx.common.Util;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
-import java.util.stream.Stream;
 
-public class FluxFromStreams {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(FluxFromStreams.class);
+public class Lec04FluxFromStreams {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Lec04FluxFromStreams.class);
 
     public static void main(String[] args) {
-        log.info("FluxFromStreams main method");
+        log.info("Lec04FluxFromStreams main method");
         var list  = List.of(1,2,3,4,5);
         //var stream = list.stream();
         Flux<Integer> flux = Flux.fromStream(list::stream);
