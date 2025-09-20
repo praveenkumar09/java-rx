@@ -3,6 +3,7 @@ package org.udemy.rx.sec04;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.udemy.rx.common.Util;
+import org.udemy.rx.sec04.helper.NameGenerator;
 import reactor.core.publisher.Flux;
 
 public class Lec01FluxCreate {
@@ -11,14 +12,11 @@ public class Lec01FluxCreate {
 
     public static void main(String[] args) {
         log.info("Main method started");
-        Flux.create(fluxSink -> {
-           for(int i=0; i<10; i++){
-               fluxSink.next(Util.faker().country().name());
-               if(i==9){
-                   fluxSink.complete();
-               }
-           }
-        })
+        NameGenerator generator = new NameGenerator();
+        Flux.create(generator)
                 .subscribe(Util.subscriber("subscriber-1"));
+        for (int i = 0; i < 10; i++) {
+            generator.generateCountryName();
+        }
     }
 }
