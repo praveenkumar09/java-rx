@@ -8,8 +8,11 @@ public class SubscriberImpl implements Subscriber<String> {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(SubscriberImpl.class);
 
+    private Subscription subscription;
+
     @Override
     public void onSubscribe(Subscription subscription) {
+        this.subscription = subscription;
         log.info("Subscription received");
     }
 
@@ -26,5 +29,9 @@ public class SubscriberImpl implements Subscriber<String> {
     @Override
     public void onComplete() {
         log.info("Completed");
+    }
+
+    public Subscription getSubscription() {
+        return subscription;
     }
 }
