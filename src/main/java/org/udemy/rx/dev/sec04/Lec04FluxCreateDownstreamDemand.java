@@ -35,16 +35,19 @@ public class Lec04FluxCreateDownstreamDemand {
 
     private static void produceOnDemand(){
         SubscriberImpl subscriber = new SubscriberImpl();
-        Flux.<String>create(sink -> {
+        Flux<String> stringFlux = Flux.<String>create(sink -> {
             sink.onRequest(req -> {
-                for(int i=0; i<req && !sink.isCancelled(); i++){
+                for (int i = 0; i < req && !sink.isCancelled(); i++) {
                     var name = Util.faker().name().firstName();
-                    log.info("Generated name: {}",name);
+                    log.info("Generated name: {}", name);
                     sink.next(name);
                 }
             });
-        })
+        });
+        stringFlux
                 .subscribe(subscriber);
+        //stringFlux.subscribe(Util.subscriber("subscriber-2"));
+        //stringFlux.subscribe(Util.subscriber("subscriber-3"));
         subscriber.getSubscription().request(2);
         subscriber.getSubscription().request(2);
         subscriber.getSubscription().cancel();
