@@ -10,10 +10,13 @@ public class Lec06FluxGenerate {
 
     public static void main(String[] args) {
         log.info("Main method started");
+        basicImpl();
+    }
+
+    private static void basicImpl() {
         Flux.generate(sink -> {
             String countryName = Util.faker().country().name();
             if(countryName.equalsIgnoreCase("canada")) {
-                sink.error(new RuntimeException("Canada received"));
                 sink.complete();
             }else {
                 sink.next(countryName);
