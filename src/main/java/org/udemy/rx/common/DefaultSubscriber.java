@@ -27,7 +27,7 @@ public class DefaultSubscriber<T> implements Subscriber<T> {
 
     @Override
     public void onError(Throwable throwable) {
-        log.error("Error occurred: {}, name : {}",throwable.getMessage(),this.name);
+        log.error("Error occurred: {}, name : {}",throwable.getStackTrace(),this.name);
     }
 
     @Override
