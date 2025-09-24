@@ -25,11 +25,11 @@ public class Main {
         Util.sleep(3);
     }
 
-    private static <T> Function<Flux<T>, Flux<T>> commonOpForProducts(){
+    private static Function<Flux<Product>, Flux<Product>> commonOpForProducts(){
         FallbackServiceImpl fallbackService = new FallbackServiceImpl();
         return flux -> flux
                 .timeout(Duration.ofSeconds(2),
-                        (Publisher<? extends T>) fallbackService.getProductFallback())
-                .switchIfEmpty((Publisher<? extends T>) fallbackService.getProductFallback());
+                        fallbackService.getProductFallback())
+                .switchIfEmpty(fallbackService.getProductFallback());
     }
 }
