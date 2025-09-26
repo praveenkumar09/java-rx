@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
         //Consumer<SynchronousSink<Object>> fluxSinkConsumer = (val) -> val.next(Util.faker().name().fullName());
         NameService nameServiceGenerator = new NameService();
-        Flux<String> stringFlux = Flux.create(nameServiceGenerator)
+        Flux<String> stringFlux = Flux.create(nameServiceGenerator).share()
                 .take(10)
                 .delayElements(Duration.ofSeconds(5));
         stringFlux
