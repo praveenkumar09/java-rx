@@ -4,6 +4,7 @@ import org.udemy.rx.assignment.sec06.main.Main;
 import org.udemy.rx.assignment.sec06.model.Order;
 import org.udemy.rx.common.AbstractHttpClient;
 import reactor.core.publisher.Flux;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.function.Function;
 
