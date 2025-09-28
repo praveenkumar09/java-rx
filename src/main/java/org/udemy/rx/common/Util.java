@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 
 import java.time.Duration;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 public class Util {
@@ -48,5 +49,9 @@ public class Util {
                 .doOnSubscribe(s -> log.info("Subscribed to flux: {}", name))
                 .doOnCancel(() -> log.info("Flux cancelled: {}", name))
                 .doOnComplete(() -> log.info("Flux completed: {}", name));
+    }
+
+    public static <T,R> Function<Flux<T>, Flux<R>> fluxMapper(Function<T, R> mapper){
+        return flux -> flux.map(mapper);
     }
 }
