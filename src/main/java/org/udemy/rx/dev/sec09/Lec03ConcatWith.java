@@ -7,8 +7,8 @@ import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 
-public class Lec02ConcatWith {
-    private static final Logger log = LoggerFactory.getLogger(Lec02ConcatWith.class);
+public class Lec03ConcatWith {
+    private static final Logger log = LoggerFactory.getLogger(Lec03ConcatWith.class);
 
     public static void main(String[] args) {
         log.info("Starting application");
