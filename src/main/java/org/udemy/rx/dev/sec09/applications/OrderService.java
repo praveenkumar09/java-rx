@@ -33,7 +33,7 @@ public class OrderService {
             3, List.of()
     );
 
-    public Flux<Order> getOrders(int userId){
+    public static Flux<Order> getOrders(int userId){
         return Flux.fromIterable(orders.get(userId))
                 .delayElements(Duration.ofMillis(500));
     }
