@@ -5,15 +5,14 @@ import reactor.core.publisher.Flux;
 
 public record Product(Name name, Price price, Review review) {
 
-    public static void generateProduct(){
-        Flux.zip(Name.getProductNames(),
-                        Review.getProductReview(),
-                        Price.getProductPrice())
+    public static Flux<Product> generateProduct(int productId){
+        return Flux.zip(Name.getProductNames(productId),
+                        Review.getProductReview(productId),
+                        Price.getProductPrice(productId))
                 .transform(Util.fluxMapper(
                         t -> new Product(t.getT1(),
                                 t.getT3(),
                                 t.getT2())
-                ))
-                .subscribe(Util.subscriber("subscriber-1"));
+                ));
     }
 }

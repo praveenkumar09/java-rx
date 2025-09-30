@@ -16,7 +16,10 @@ public class Lec07ZipAssignment {
 
     public static void main(String[] args) {
         log.info("Starting application");
-        Product.generateProduct();
+        for(int i = 0; i < 10; i++) {
+            Product.generateProduct(i)
+                    .subscribe(Util.subscriber("subscriber-"+i));
+        }
         Util.sleep(3);
     }
 }
