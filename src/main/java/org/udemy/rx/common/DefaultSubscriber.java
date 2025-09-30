@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 public class DefaultSubscriber<T> implements Subscriber<T> {
 
     private static final Logger log = LoggerFactory.getLogger(DefaultSubscriber.class);
-    private String name;
+    private final String name;
 
     public DefaultSubscriber(String name) {
         this.name = name;

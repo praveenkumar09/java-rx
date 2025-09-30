@@ -8,7 +8,7 @@ import java.util.Map;
 public class UserService {
 
     private static final Map<String,Integer>  userTable = Map. of(
-      "san",1,
+      "sam",1,
       "mike",2,
       "jane",3
     );
