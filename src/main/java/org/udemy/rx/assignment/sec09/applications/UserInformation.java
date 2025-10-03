@@ -23,11 +23,7 @@ public record UserInformation(Integer userId,
                 PaymentService.getPayment(id),
                 OrderService.getOrders(id).collectList()
         )
-                .transform(transformToUserInfo(id,username));
+                .map(t -> new UserInformation(id,username,t.getT1(),t.getT2()));
     }
 
-    private static Function<Flux<Tuple2<Integer,List<Order>>>,Flux<UserInformation>> transformToUserInfo(Integer id, String username) {
-        return flux -> flux
-                .map(val -> new UserInformation(id,username,val.getT1(),val.getT2()));
-    }
 }
