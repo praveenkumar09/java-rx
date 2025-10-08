@@ -12,7 +12,7 @@ public class OrderMain {
         PurchaseOrder.generatePurchaseOrder()
                 .groupBy(PurchaseOrder::category)
                         .flatMap(PurchaseOrder::processPurchaseOrder)
-                                .subscribe();
+                                .subscribe(Util.subscriber("subscriber-1"));
         Util.sleep(60);
     }
 }

@@ -23,40 +23,43 @@ public record PurchaseOrder(String item, String category, Integer price){
     private static final Set<String> allowedCat = Set.of("Kids","Automotive");
 
     public static Flux<PurchaseOrder> generatePurchaseOrder(){
-        return Flux.interval(Duration.ofMillis(800))
-                .transform(createPurchaseOrder())
-                .filter(i -> allowedCat.contains(i.category()));
-    }
-
-    private static Function<Flux<Long>, Flux<PurchaseOrder>> createPurchaseOrder(){
-        return flux -> flux
+        return Flux.interval(Duration.ofMillis(100))
                 .map(i -> new PurchaseOrder(
                         Util.faker().commerce().productName(),
                         Util.faker().commerce().department(),
                         Util.faker().number().numberBetween(10,100)
-                ));
+                ))
+                .filter(i -> allowedCat.contains(i.category()));
     }
-    
-    public static Mono<Void> processPurchaseOrder(GroupedFlux<String, PurchaseOrder> groupedFlux){
+
+    public static Flux<PurchaseOrder> processPurchaseOrder(GroupedFlux<String, PurchaseOrder> groupedFlux){
         return groupedFlux
-                .doOnNext(i -> {
-                    log.info("Processing purchase order: {}", i);
-                    PurchaseOrder latestOrder = switch (i.category()){
-                        case "Kids" -> {
-                            PurchaseOrder order =  new PurchaseOrder(i.item(),i.category(),0);
-                            log.info("Created new purchase order for Kids: {} from existing order : {}", order, i);
-                            yield order;
-                        }
-                        case "Automotive" -> {
-                            PurchaseOrder updatedPurchaseOrder = i.setPrice(i.price() + 100);
-                            log.info("Updated price for Automotive: {}", updatedPurchaseOrder);
-                            yield updatedPurchaseOrder;
-                        }
-                        default -> throw new RuntimeException("Invalid category");
-                    };
-                })
-                .doOnComplete(() -> log.info("Completed processing purchase order for category : {}", groupedFlux.key()))
-                .then();
+                .flatMap(purchaseOrder -> processKidsOrAutomativeOrder(purchaseOrder,groupedFlux.key()));
     }
-    
+
+    private static Flux<PurchaseOrder> processKidsOrAutomativeOrder(PurchaseOrder purchaseOrder, String category) {
+        switch (category){
+            case "Kids" -> {
+                return createKidsPurchaseOrderFlux(purchaseOrder);
+            }
+            case "Automotive" -> {
+                return createAutomativePurchaseOrderFlux(purchaseOrder);
+            }
+        }
+        return Flux.just(new PurchaseOrder("","",0));
+    }
+
+    private static Flux<PurchaseOrder> createAutomativePurchaseOrderFlux(PurchaseOrder purchaseOrder) {
+        PurchaseOrder updatedPurchaseOrder = purchaseOrder.setPrice(purchaseOrder.price() + 100);
+        log.info("Updated price for Automotive: {}", updatedPurchaseOrder);
+        return Flux.just(updatedPurchaseOrder);
+    }
+
+    private static Flux<PurchaseOrder> createKidsPurchaseOrderFlux(PurchaseOrder purchaseOrder) {
+        PurchaseOrder order =  new PurchaseOrder(purchaseOrder.item(), purchaseOrder.category(),0);
+        log.info("Created new purchase order for Kids: {} from existing order : {}", order, purchaseOrder);
+        return Flux.just(order)
+                .startWith(purchaseOrder);
+    }
+
 }
