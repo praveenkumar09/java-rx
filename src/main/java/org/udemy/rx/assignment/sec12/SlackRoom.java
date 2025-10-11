@@ -26,10 +26,7 @@ public record SlackRoom(String roomName) {
     public void addMember(SlackMember slackMember){
         log.info("Adding member {} to room {}", slackMember.memberName(), roomName);
         flux.subscribe(Util.subscriber(slackMember.memberName()));
+        slackMember.setSinkForMessage(sink::tryEmitNext);
         member.add(slackMember);
-    }
-
-    public static Sinks.Many<Object> getSink(){
-        return sink;
     }
 }
