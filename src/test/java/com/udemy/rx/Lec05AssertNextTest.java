@@ -1,6 +1,5 @@
 package com.udemy.rx;
 
-import com.github.javafaker.Book;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -11,9 +10,9 @@ import reactor.test.StepVerifier;
 
 import java.util.Objects;
 
-public class Lec05AssertNextText {
+public class Lec05AssertNextTest {
     private static final Logger log = LoggerFactory
-            .getLogger(Lec05AssertNextText.class);
+            .getLogger(Lec05AssertNextTest.class);
 
     record Book(int id, String author,String title){
 
